@@ -3,6 +3,7 @@ import auth from '../middlewares/auth.js';
 import Follow from '../models/Follow.js';
 import User from '../models/User.js';
 import Post from '../models/Post.js';
+import Login from '../models/Login.js';
 
 const router = express.Router();
 
@@ -17,7 +18,11 @@ router.put('/', auth, async (req, res) => {
     // Update a user by ID
     const { id } = req.params;
     const { username, bio, image } = req.body;
-    const user = await User.findByIdAndUpdate(id, { username, bio, image }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { username, bio, image });
+    if (username!=user.username){
+        await Login.findByIdAndUpdate(id, { username });
+        user.username = username;
+    }
     res.json(user);
 });
 

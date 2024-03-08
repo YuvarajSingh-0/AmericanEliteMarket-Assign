@@ -124,5 +124,5 @@ This will open a [http://localhost:3000](http:localhost:3000) site.
 
 ## Schema Design
 
-![]()
+![](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/master/src/assets/ER-model.svg)
 
