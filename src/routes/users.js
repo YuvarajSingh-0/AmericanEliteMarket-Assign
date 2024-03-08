@@ -70,7 +70,19 @@ router.delete('/', auth, async (req, res) => {
         // End the session
         session.endSession();
     }
+    try{
+        await Post.deleteMany({ userId: userId });
+        await Login.deleteOne({ _id: userId });
+        const user = await User.deleteOne({ _id: userId })
 
+        // If user not found, throw an error
+        if (user.deletedCount === 0) {
+            throw new Error('User not found');
+        }
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting user', error: error });
+    }
 });
 
 router.post('/follow', auth, async (req, res) => {
