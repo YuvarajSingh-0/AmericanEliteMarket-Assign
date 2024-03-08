@@ -4,6 +4,7 @@ import Follow from '../models/Follow.js';
 import User from '../models/User.js';
 import Post from '../models/Post.js';
 import Login from '../models/Login.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -27,36 +28,43 @@ router.put('/', auth, async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
     // Delete a user by ID
-    if (!req.user || !req.user._id) {
-        return res.status(400).json({ msg: 'User not found' });
-    }
     const userId = req.user._id;
-    const session = await mongoose.startSession();
+    let session = await mongoose.startSession();
     session.startTransaction();
 
     try {
         // Delete user's posts
-        await Post.deleteMany({ userId: userId }).session(session);
-
-        // Delete user's login credentials
-        await Login.deleteOne({ _id: userId }).session(session);
+        // console.log(session);
+        const posts = await Post.deleteMany({ author: userId }).session(session);
+        console.log(1)
+        // Delete user's follow relationships
+        await Follow.deleteMany({ $or: [{ follower: userId }, { following: userId }] }).session(session);
+        console.log(2)
 
         // Delete user's profile
         const user = await User.deleteOne({ _id: userId }).session(session);
+        console.log(3)
+
+        // Delete user's login credentials
+        await Login.deleteOne({ _id: userId }).session(session);
+        console.log(4)
 
         // If user not found, throw an error
         if (user.deletedCount === 0) {
-            throw new Error('User not found');
+            throw new Error('User not found in Database');
         }
 
         // If everything is OK, commit the transaction
         await session.commitTransaction();
+        console.log(5)
 
-        res.status(200).json({ message: 'User deleted successfully' });
+        res.status(200).json({ msg: `Account Successfully Deleted with ${posts.deletedCount} cleared Posts` });
     } catch (error) {
         // If anything goes wrong, abort the transaction
-        await session.abortTransaction();
-
+        if (session.inTransaction()) {
+            await session.abortTransaction();
+        }
+        console.log(error)
         res.status(500).json({ message: 'Error deleting user', error: error });
     } finally {
         // End the session
