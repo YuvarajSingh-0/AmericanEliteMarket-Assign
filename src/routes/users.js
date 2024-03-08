@@ -16,14 +16,13 @@ router.get('/:id', async (req, res) => {
 
 router.put('/', auth, async (req, res) => {
     // Update a user by ID
-    const { id } = req.params;
+    const id = req.user._id;
     const { username, bio, image } = req.body;
     const user = await User.findByIdAndUpdate(id, { username, bio, image });
-    if (username!=user.username){
+    if (username != user.username) {
         await Login.findByIdAndUpdate(id, { username });
-        user.username = username;
     }
-    res.json(user);
+    res.json({ msg: 'User updated successfully' });
 });
 
 router.delete('/', auth, async (req, res) => {
@@ -66,8 +65,8 @@ router.delete('/', auth, async (req, res) => {
 
 });
 
-router.post('/follow/:id', auth, async (req, res) => {
-    const { id } = req.params;
+router.post('/follow', auth, async (req, res) => {
+    const { id } = req.body;
 
     // Don't allow a user to follow themselves
     if (req.user._id === id) {
@@ -76,7 +75,7 @@ router.post('/follow/:id', auth, async (req, res) => {
 
     // Create a follow relationship
     const follow = new Follow({
-        follower: req.user.id,
+        follower: req.user._id,
         following: id
     });
 
@@ -85,12 +84,12 @@ router.post('/follow/:id', auth, async (req, res) => {
     res.json({ msg: 'Successfully followed user' });
 });
 
-router.delete('/unfollow/:id', auth, async (req, res) => {
-    const { id } = req.params;
+router.delete('/unfollow', auth, async (req, res) => {
+    const { id } = req.body;
 
     // Delete the follow relationship
-    await Follow.findOneAndDelete({
-        follower: req.user.id,
+    await Follow.deleteOne({
+        follower: req.user._id,
         following: id
     });
 
@@ -102,16 +101,16 @@ router.get('/:id/followers', async (req, res) => {
 
     // Get the followers of the user
     const followers = await Follow.find({ following: id }).populate('follower');
-    
+
     res.json(followers);
 });
 
 router.get('/:id/following', async (req, res) => {
     const { id } = req.params;
-    
+
     // Get the users that the user is following
     const following = await Follow.find({ follower: id }).populate('following');
-    
+
     res.json(following);
 });
 
@@ -157,7 +156,7 @@ router.get('/:id/posts', async (req, res) => {
         return res.status(400).json({ msg: 'Specify user id' });
     }
 
-    let { page, limit } = req.query 
+    let { page, limit } = req.query
     // set default values
     page = page || 1;
     limit = limit || 2;
@@ -176,35 +175,15 @@ router.get('/:id/posts', async (req, res) => {
             path: 'author',
             model: User,
         });
-        
-        // create result object
-        const result = {};
-        // // add next page if needed
-        result.hasMore = page * limit == posts.length;
-        // add data to result object
-        result.results = posts;
-        // send result
-        res.json(result);
-    });
-    
-    router.post('/follow/:id', auth, async (req, res) => {
-        const { id } = req.params;
-        
-        // Don't allow a user to follow themselves
-        if (req.user._id === id) {
-        return res.status(400).json({ msg: 'You cannot follow yourself' });
-    }
 
-    // Create a follow relationship
-    const follow = new Follow({
-        follower: req.user._id,
-        following: id
-    });
-
-    await follow.save();
-
-    res.json({ msg: 'Successfully followed user' });
+    // create result object
+    const result = {};
+    // // add next page if needed
+    result.hasMore = page * limit == posts.length;
+    // add data to result object
+    result.results = posts;
+    // send result
+    res.json(result);
 });
-
 
 export default router;

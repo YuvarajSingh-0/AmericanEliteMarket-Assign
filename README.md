@@ -1,65 +1,94 @@
-# Project Name
+# AmericanEliteMarket Assignment
 
 ## API Endpoints
 
+### Auth Routes
+
+#### `POST /register`
+
+- Signs up the user with the passed username and password and returns a jwt token along with the userId
+
+#### `POST /login`
+
+- Logs in the user if the username and password matches and returns a jwt token along with the userId
+
 ### User Routes
 
-#### `GET /users/:id`
+#### `GET /users/{id}`
 
-Fetches the user with the given ID. Returns a JSON object with the user's information.
+- Fetches the user with the given ID. Returns a JSON object with the user's information 
 
 #### `PUT /users`
 
-Updates the user with the given ID. This route requires authentication. The request body should include the fields to be updated (`username`, `bio`, `image`). Returns a JSON object with the updated user's information.
+- Updates the user with the given ID 
+- This route requires authentication 
+- The request body should include the fields to be updated (`username`, `bio`, `image`) 
+- Returns a JSON object with the updated user's information
 
 #### `DELETE /users`
 
-Deletes the user with the given ID. This route requires authentication. Returns a success message if the deletion was successful.
+- Deletes the user with the given ID 
+- This route requires authentication 
+- Returns a success message if the deletion was successful
 
-#### `POST /users/follow/:id`
+#### `POST /users/follow`
 
-Creates a follow relationship between the authenticated user and the user with the given ID. This route requires authentication. Returns a success message if the follow was successful.
+- Creates a follow relationship between the authenticated user and the user with the given ID 
+- This route requires authentication 
+- Returns a success message if the follow was successful
 
-#### `DELETE users/unfollow/:id`
+#### `DELETE /users/unfollow`
 
-Deletes a follow relationship between the authenticated user and the user with the given ID. This route requires authentication. Returns a success message if the unfollow was successful.
+- Deletes a follow relationship between the authenticated user and the user with the given ID 
+- This route requires authentication
+- Returns a success message if the unfollow was successful
 
-#### `GET users/:id/followers`
+#### `GET /users/{id}/followers`
 
-Fetches the followers of the user with the given ID. Returns a JSON array of the user's followers.
+- Fetches the followers of the user with the given ID 
+- Returns a JSON array of the user's followers
 
-#### `GET users/:id/following`
+#### `GET /users/{id}/following`
 
-Fetches the users that the user with the given ID is following. Returns a JSON array of the users that the user is following.
+- Fetches the users that the user with the given ID is following 
+- Returns a JSON array of the users that the user is following
 
 #### `GET /users/following/posts`
-Fetches the latest posts from users that the authenticated user follows. This route requires authentication. Returns a JSON array of the posts.
+- Fetches the latest posts from users that the authenticated user follows 
+- This route requires authentication 
+- Thir route makes use of `aggregate()` function in MongoDB to get the posts that belongs to his followers sorted by creation date
+- Returns a JSON array of the posts
 
-#### `GET /users/:id/posts`
-Fetches the posts by the user with the given ID. The number of posts returned can be controlled with the page and limit query parameters. Returns a JSON object with the posts and a flag indicating whether there are more posts.
-
-#### `POST users/follow/:id`
-Creates a follow relationship between the authenticated user and the user with the given ID. This route requires authentication. Returns a success message if the follow was successful.
+#### `GET /users/{id}/posts`
+- Fetches the posts by the user with the given ID 
+- The number of posts returned can be controlled with the `page` and `limit` query parameters 
+- Returns a JSON object with the posts and a flag indicating whether there are more posts
 
 ### Posts Routes
 
-All post routes have a prefix of `/posts`.
-
 #### `GET /posts`
 
-Fetches all posts, sorted by creation date in descending order. Each post is returned with the author's details populated. The number of posts returned is limited to 5.
+- Fetches all posts, sorted by creation date in descending order
+- The number of posts returned can be controlled with the `page` and `limit` query parameters
+- Each post is returned with the author's details filled 
+- The number of posts returned is limited to 5
 
-#### `GET /posts/:id`
+#### `GET /posts/{id}`
 
-Fetches the post with the given ID.
+- Fetches the post with the given ID
+- Returns the post details with the author's details filled, post creation date and content
 
 #### `POST /posts/new`
 
-Creates a new post. This route requires authentication. The request body should include the `content` of the post.
+- Creates a new post 
+- This route requires authentication 
+- The request body should include the `content` of the post
 
-#### `DELETE /posts/:id`
+#### `DELETE /posts/{id}`
 
-Deletes the post with the given ID. This route requires authentication. Only the author of the post can delete it.
+- Deletes the post with the given ID
+- This route requires authentication 
+- Only the author of the post can delete it
 
 
 ## TakeAways
@@ -95,7 +124,7 @@ If you haven't already, you'll need to install Node.js and npm (which comes with
 
 Clone the project repository
 ```bash
-git clone 
+git clone https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign.git
 ```
 
 ### 3. Install Dependencies
