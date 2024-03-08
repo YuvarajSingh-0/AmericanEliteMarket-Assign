@@ -185,9 +185,9 @@ mongod --replSet "rs0"
 ```bash
 rs.initiate()
 ```
-    Now everything is set.
+Now everything is set.
 
-    **If you wish not to go through this setup hassle. comment out [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e700c94734832b66108ddffbdf65cf88cb1f4096/src/routes/users.js#L34-L64) and uncomment [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e3c2f9efc2ce2f21ff79e103937af6ce3ff6a195/src/routes/users.js#L65-L77)**
+**If you wish not to go through this setup hassle. comment out [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e700c94734832b66108ddffbdf65cf88cb1f4096/src/routes/users.js#L34-L64) and uncomment [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e3c2f9efc2ce2f21ff79e103937af6ce3ff6a195/src/routes/users.js#L65-L77)**
 
 
 ### 5. Environment Variables
