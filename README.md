@@ -72,7 +72,7 @@ Deletes the post with the given ID. This route requires authentication. Only the
 
 - **Data Integrity**: The FollowSchema provides better data integrity. If a user is deleted, their follow relationships are also deleted. In the UserSchema, if a user is deleted, their ID may still exist in the following arrays of other users.
 
-### The Reason behind using startSession() in this code block
+### The Reason behind using startSession() in [this](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59) code block
 
 ###### The Popular ACID properties
 
@@ -81,7 +81,7 @@ Deletes the post with the given ID. This route requires authentication. Only the
 - **Isolation**: Sessions provide isolation, meaning that uncommitted changes are not visible to other sessions until they are committed.
 - **Durability**: Once the changes are committed, they are permanent and survive subsequent system failures.
 
-**Neccessity in [this]() codeblock**: In the [implemeted code](), if an error occurs while deleting the user’s posts, login credentials, or profile, the session aborts the transaction and the database remains unchanged. This prevents partial deletions and ensures data integrity. If all operations are successful, the session commits the transaction and all changes are saved to the database.
+**Neccessity in [this](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59) codeblock**: In the [implemeted code](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59), if an error occurs while deleting the user’s posts, login credentials, or profile, the session aborts the transaction and the database remains unchanged. This prevents partial deletions and ensures data integrity. If all operations are successful, the session commits the transaction and all changes are saved to the database.
 
 ## Setup Instructions
 
@@ -124,5 +124,5 @@ This will open a [http://localhost:3000](http:localhost:3000) site.
 
 ## Schema Design
 
-![]()
+![](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/master/src/assets/ER-model.svg)
 
