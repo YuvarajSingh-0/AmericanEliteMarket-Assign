@@ -53,7 +53,7 @@ router.post('/register', async (req, res) => {
     let login = await Login
         .findOne({ username })
         .populate({
-            path: 'User',
+            path: '_id',
             model: User,
         });
 
