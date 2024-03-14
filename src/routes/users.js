@@ -129,6 +129,8 @@ router.get('/:id/following', async (req, res) => {
 });
 
 router.get('/following/posts', auth, async (req, res) => {
+    const page = parseInt(req.query.page || 1);
+    const limit = parseInt(req.query.limit || 5);
     try {
         // Get user id from request after auth middleware passes
         const userId = req.user._id;
@@ -150,8 +152,11 @@ router.get('/following/posts', auth, async (req, res) => {
             { $unwind: '$posts' },
             // Sort by timestamp in descending order
             { $sort: { 'posts.timestamp': -1 } },
-            // Limit to 10 posts
-            { $limit: 10 },
+
+            //skip and limit
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+
             // Replace root document with the post document
             { $replaceRoot: { newRoot: '$posts' } }
         ]);

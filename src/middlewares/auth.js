@@ -14,6 +14,10 @@ const auth = (req, res, next) => {
         if (!decoded) {
             return res.status(401).json({ msg: 'Token is not valid' });
         }
+        if (req.user && req.user._id !== decoded.user._id){
+            console.log(req.user);
+            return res.status(401).json({ msg: 'Token is not valid' });
+        }
         req.user = decoded.user;
         next();
     } catch (err) {

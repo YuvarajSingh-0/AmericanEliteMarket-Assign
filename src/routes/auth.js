@@ -9,7 +9,7 @@ dotenv.config();
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('Welcome to the API');
+    res.send('Root route for the Assigment. Please use /auth/login or /auth/register to login or register a user.<br> Refer the <a href="https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign#americanelitemarket-assignment">Readme File</a> for more details.');
 });
 
 router.post('/login', async (req, res) => {
