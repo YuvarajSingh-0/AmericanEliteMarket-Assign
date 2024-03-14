@@ -57,9 +57,7 @@ router.delete('/', auth, async (req, res) => {
         res.status(200).json({ msg: `Account Successfully Deleted with ${posts.deletedCount} cleared Posts` });
     } catch (error) {
         // If anything goes wrong, abort the transaction
-        if (session.inTransaction()) {
-            await session.abortTransaction();
-        }
+        await session.abortTransaction();
         console.log(error)
         res.status(500).json({ message: 'Error deleting user', error: error.Error });
     } finally {
