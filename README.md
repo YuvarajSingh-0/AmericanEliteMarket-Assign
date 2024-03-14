@@ -20,37 +20,38 @@
 
 #### `PUT /users`
 
-- Updates the user with the given ID 
-- This route requires authentication 
+- Updates the loggedin user with the information passed in the request body
+- This route requires authentication
 - The request body should include the fields to be updated (`username`, `bio`, `image`) 
 - Returns a JSON object with the updated user's information
 
 #### `DELETE /users`
 
-- Deletes the user with the given ID 
-- This route requires authentication 
+- Deletes the loggedin user if the user is logged in
+- This route requires authentication
 - Returns a success message if the deletion was successful
 
 #### `POST /users/follow`
 
-- Creates a follow relationship between the authenticated user and the user with the given ID 
+- Creates a follow relationship between the authenticated user and the user with the given `id` 
 - This route requires authentication 
 - Returns a success message if the follow was successful
 
 #### `DELETE /users/unfollow`
 
-- Deletes a follow relationship between the authenticated user and the user with the given ID 
+- Deletes a follow relationship between the authenticated user and the user with the given `id` 
+- request body should include the user id of the user to unfollow {`id`}
 - This route requires authentication
 - Returns a success message if the unfollow was successful
 
 #### `GET /users/{id}/followers`
 
-- Fetches the followers of the user with the given ID 
+- Fetches the followers of the user with the given `id` in the url 
 - Returns a JSON array of the user's followers
 
 #### `GET /users/{id}/following`
 
-- Fetches the users that the user with the given ID is following 
+- Fetches the users that the user with the given `id` is following 
 - Returns a JSON array of the users that the user is following
 
 #### `GET /users/following/posts`
@@ -60,7 +61,7 @@
 - Returns a JSON array of the posts
 
 #### `GET /users/{id}/posts`
-- Fetches the posts by the user with the given ID 
+- Fetches the posts by the user with the given `id` 
 - The number of posts returned can be controlled with the `page` and `limit` query parameters 
 - Returns a JSON object with the posts and a flag indicating whether there are more posts
 
@@ -73,9 +74,9 @@
 - Each post is returned with the author's details filled 
 - The number of posts returned is limited to 5
 
-#### `GET /posts/{id}`
+#### `GET /posts/{postId}`
 
-- Fetches the post with the given ID
+- Fetches the post with the given `postId`
 - Returns the post details with the author's details filled, post creation date and content
 
 #### `POST /posts/new`
@@ -84,9 +85,9 @@
 - This route requires authentication 
 - The request body should include the `content` of the post
 
-#### `DELETE /posts/{id}`
+#### `DELETE /posts/{postId}`
 
-- Deletes the post with the given ID
+- Deletes the post with the given `postId`
 - This route requires authentication 
 - Only the author of the post can delete it
 
