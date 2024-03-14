@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('',authRoutes);
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/auth', authRoutes);
 

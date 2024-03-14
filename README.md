@@ -11,59 +11,61 @@
 
 #### `POST /login`
 
-- Logs in the user if the username and password matches and returns a jwt token along with the userId
+- Logs in the user if the `username` and `password` fields match and returns a jwt token along with the userId
 
 ### User Routes
 
-#### `GET /users/{id}`
+#### `GET /user/{id}`
 
 - Fetches the user with the given ID. Returns a JSON object with the user's information 
 
-#### `PUT /users`
+#### `PUT /user`
 
 - Updates the logged in user with the information passed in the request body
 - This route requires authentication
 - The request body should include the fields to be updated (`username`, `bio`, `image`) in JSON format
 - Returns a JSON object with the updated user's information
 
-#### `DELETE /users`
+#### `DELETE /user`
 
-- Deletes the logged in user if the user is logged in
+- Deletes the logged in user if the user is logged in otherwise returns `401` error code
 - This route requires authentication
 - Returns a success message if the deletion was successful
 
-#### `POST /users/follow`
+#### `POST /user/follow`
 
 - Creates a follow relationship between the authenticated user and the user with the given `id` 
+- The request body should include the id of the user to follow (`id`) in json format
 - This route requires authentication 
 - Returns a success message if the follow was successful
 
-#### `DELETE /users/unfollow`
+#### `DELETE /user/unfollow`
 
 - Deletes a follow relationship between the authenticated user and the user with the given `id` 
-- The request body should include the user id of the user to unfollow {`id`} in JSON format
+- The request body should include the id of the user to unfollow {`id`} in JSON format
 - This route requires authentication
 - Returns a success message if the unfollow was successful
 
-#### `GET /users/{id}/followers`
+#### `GET /user/{id}/followers`
 
 - Fetches the followers of the user with the given `id` in the url 
 - Returns a JSON array of the user's followers
 
-#### `GET /users/{id}/following`
+#### `GET /user/{id}/following`
 
 - Fetches the users that the user with the given `id` is following 
 - Returns a JSON array of the users that the user is following
 
-#### `GET /users/following/posts`
+#### `GET /user/following/posts`
 - Fetches the latest posts from users that the authenticated user follows 
 - This route requires authentication 
 - Thir route makes use of `aggregate()` function in MongoDB to get the posts that belongs to his followers sorted by creation date
 - Returns a JSON array of the posts
 
-#### `GET /users/{id}/posts`
+#### `GET /user/{id}/posts`
 - Fetches the posts by the user with the given `id` 
-- The number of posts returned can be controlled with the `page` and `limit` query parameters 
+- The number of posts returned can be controlled with the `page` and `limit` query parameters
+- Default values are - `limit=5` `page=1`
 - Returns a JSON object with the posts and a flag indicating whether there are more posts
 
 ### Posts Routes
@@ -83,8 +85,8 @@
 #### `POST /posts/new`
 
 - Creates a new post 
-- This route requires authentication 
 - The request body should include the `content` of the post
+- This route requires authentication 
 
 #### `DELETE /posts/{postId}`
 
@@ -103,7 +105,7 @@
 
 - **Data Integrity**: The FollowSchema provides better data integrity. If a user is deleted, their follow relationships are also deleted. In the UserSchema, if a user is deleted, their ID may still exist in the following arrays of other users.
 
-### The Reason behind using startSession() in [this code block](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59)
+### The Reason behind using startSession() in [this code block](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L60)
 
 ###### The Popular ACID properties
 
@@ -112,7 +114,7 @@
 - **Isolation**: Sessions provide isolation, meaning that uncommitted changes are not visible to other sessions until they are committed.
 - **Durability**: Once the changes are committed, they are permanent and survive subsequent system failures.
 
-**Neccessity in [this](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59) codeblock**: In the [implemeted code](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59), if an error occurs while deleting the user’s posts, login credentials, or profile, the session aborts the transaction and the database remains unchanged. This prevents partial deletions and ensures data integrity. If all operations are successful, the session commits the transaction and all changes are saved to the database.
+**Neccessity in [this](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L60) codeblock**: In the [implemeted code](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L60), if an error occurs while deleting the user’s posts, login credentials, or profile, the session aborts the transaction and the database remains unchanged. This prevents partial deletions and ensures data integrity. If all operations are successful, the session commits the transaction and all changes are saved to the database.
 
 ## Project Structure and File Meaning
 
@@ -168,7 +170,7 @@ npm install
 ### 4. Set Up Your Database
 This project uses MongoDB with Mongoose. If you don’t have MongoDBs server, Mongosh installed, you’ll need to install it and set up a database for your project. You’ll also need to update database connection strings in .env file in the upcoming step.
 
-Note: Normally, MongoDB server is enough for working with database, which creates standalone server in the local machine. But, for [this particular codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L59) to work Mongo shell is needed which is used to setup a replica set. Transactions only work with the replica set being setup. So, follow the below steps:
+Note: Normally, MongoDB server is enough for working with database, which creates standalone server in the local machine. But, for [this particular codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/9afb57da22b03f1d2e4bf2ff08fdf23362b31a53/src/routes/users.js#L30-L60) to work Mongo shell is needed which is used to setup a replica set. Transactions only work with the replica set being setup. So, follow the below steps:
 
 - Download and install [MongoDB community server](https://www.mongodb.com/try/download/community) and [Mongo shell](https://www.mongodb.com/try/download/shell)
 - If the mongoDB is already running, stop the service by entering the below command in command prompt after opening it administrator mode
@@ -189,7 +191,7 @@ rs.initiate()
 ```
 Now everything is set.
 
-**If you wish not to go through this setup hassle. comment out [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e700c94734832b66108ddffbdf65cf88cb1f4096/src/routes/users.js#L34-L64) and uncomment [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/e3c2f9efc2ce2f21ff79e103937af6ce3ff6a195/src/routes/users.js#L65-L77)**
+**If you wish not to go through this setup hassle. comment out [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/5171cfba7ee7fcc4cd47223fc351ff4e43d0bece/src/routes/users.js#L32-L66) and uncomment [this codeblock](https://github.com/YuvarajSingh-0/AmericanEliteMarket-Assign/blob/5171cfba7ee7fcc4cd47223fc351ff4e43d0bece/src/routes/users.js#L67-L79)**
 
 
 ### 5. Environment Variables

@@ -173,7 +173,7 @@ router.get('/:id/posts', async (req, res) => {
     let { page, limit } = req.query
     // set default values
     page = page || 1;
-    limit = limit || 2;
+    limit = limit || 5;
     // convert to number
     page = parseInt(page);
     limit = parseInt(limit);
