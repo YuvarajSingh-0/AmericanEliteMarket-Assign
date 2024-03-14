@@ -20,14 +20,14 @@
 
 #### `PUT /users`
 
-- Updates the loggedin user with the information passed in the request body
+- Updates the logged in user with the information passed in the request body
 - This route requires authentication
 - The request body should include the fields to be updated (`username`, `bio`, `image`) 
 - Returns a JSON object with the updated user's information
 
 #### `DELETE /users`
 
-- Deletes the loggedin user if the user is logged in
+- Deletes the logged in user if the user is logged in
 - This route requires authentication
 - Returns a success message if the deletion was successful
 
