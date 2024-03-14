@@ -75,7 +75,7 @@ router.post('/register', async (req, res) => {
         _id: login._id,
         username,
     });
-    user.save();
+    await user.save();
 
     // Create and return a JWT
     const payload = {

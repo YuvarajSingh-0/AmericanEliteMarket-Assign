@@ -7,6 +7,7 @@
 #### `POST /register`
 
 - Signs up the user with the passed username and password and returns a jwt token along with the userId
+- The request body should include the fields to be registered (`username`, `password`) in JSON format
 
 #### `POST /login`
 
@@ -22,7 +23,7 @@
 
 - Updates the logged in user with the information passed in the request body
 - This route requires authentication
-- The request body should include the fields to be updated (`username`, `bio`, `image`) 
+- The request body should include the fields to be updated (`username`, `bio`, `image`) in JSON format
 - Returns a JSON object with the updated user's information
 
 #### `DELETE /users`
@@ -40,7 +41,7 @@
 #### `DELETE /users/unfollow`
 
 - Deletes a follow relationship between the authenticated user and the user with the given `id` 
-- request body should include the user id of the user to unfollow {`id`}
+- The request body should include the user id of the user to unfollow {`id`} in JSON format
 - This route requires authentication
 - Returns a success message if the unfollow was successful
 

@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
 router.post('/new', auth, async (req, res) => {
     // Create a new post
     const { content } = req.body;
-    const post = new Post({ content, userId: req.user._id });
+    const post = new Post({ content, author: req.user._id });
     await post.save();
     res.json(post);
 });
